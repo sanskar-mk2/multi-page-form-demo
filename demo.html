@@ -1,97 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/alpinejs" defer></script>
+        <style>
+            [x-cloak] {
+                display: none !important;
+            }
+        </style>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
-    <style>
-        [x-cloak] {
-            display: none !important;
-        }
-    </style>
-</head>
-
-<body class="flex bg-green-100 justify-center">
-    <div x-cloak x-data="{page: 1, address_model:'', notes_model:'', address:'', notes:'', address_modal:false, address_page:1}"
-        class="container flex bg-green-200 min-h-screen flex-col">
-        <nav x-show="!address_modal" class="w-full text-3xl">
-            <ul class="flex justify-around">
-                <li @click="page=1"
-                    class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer">
-                    Page 1</li>
-                <li @click="page=2"
-                    class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer">
-                    Page 2</li>
-                <li @click="page=3"
-                    class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer">
-                    Page 3</li>
-                <li @click="page=4"
-                    class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer">
-                    Page 4</li>
-            </ul>
-        </nav>
-        <nav x-show="address_modal" class="w-full text-3xl">
-            <ul class="flex justify-around">
-                <li @click="address_page=1"
-                    class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer">
-                    Page 1</li>
-                <li @click="address_page=2"
-                    class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer">
-                    Page 2</li>
-            </ul>
-        </nav>
-        <div>
-            <form class="text-2xl">
-                <div x-show="page==1" class="flex flex-col p-4 gap-4">
-                    <input class="p-2 rounded" type="text" placeholder="First Name">
-                    <input class="p-2 rounded" type="text" placeholder="Last Name">
-                </div>
-                <div x-show="page==2" class="flex flex-col p-4 gap-4">
-                    <input class="p-2 rounded" type="text" placeholder="Home Phone">
-                    <input class="p-2 rounded" type="text" placeholder="Work Phone">
-                </div>
-                <div x-show="page==3 && !address_modal" class="flex flex-col p-4 gap-4">
-                    Address: <span x-text="address"></span>
-                    Notes: <span x-text="notes"></span>
-                </div>
-                <div x-show="page==4" class="flex flex-col p-4 gap-4">
-                    <input class="rounded p-2" type="text" placeholder="Car type">
-                    <input class="p-2 rounded" type="text" placeholder="Car color">
-                </div>
-                <div x-show="address_modal">
-                    <div x-show="address_page==1" class="flex flex-col p-4 gap-4">
-                        <textarea x-model="address_model" rows="4" class="rounded p-2" type="text" placeholder="Address"></textarea>
+    <body class="flex bg-green-100 justify-center">
+        <div
+            x-cloak
+            x-data="alp_init()"
+            class="container flex bg-green-200 min-h-screen flex-col"
+        >
+            <nav x-show="!address_modal" class="w-full text-3xl">
+                <ul class="flex justify-around">
+                    <li
+                        @click="page=1"
+                        class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer"
+                    >
+                        Page 1
+                    </li>
+                    <li
+                        @click="page=2"
+                        class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer"
+                    >
+                        Page 2
+                    </li>
+                    <li
+                        @click="page=3"
+                        class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer"
+                    >
+                        Page 3
+                    </li>
+                    <li
+                        @click="page=4"
+                        class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer"
+                    >
+                        Page 4
+                    </li>
+                </ul>
+            </nav>
+            <nav x-show="address_modal" class="w-full text-3xl">
+                <ul class="flex justify-around">
+                    <li
+                        @click="address_page=1"
+                        class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer"
+                    >
+                        Page 1
+                    </li>
+                    <li
+                        @click="address_page=2"
+                        class="bg-green-400 w-full p-4 text-center hover:bg-green-900 hover:text-white hover:cursor-pointer"
+                    >
+                        Page 2
+                    </li>
+                </ul>
+            </nav>
+            <div>
+                <form class="text-2xl">
+                    <div x-show="page==1" class="flex flex-col p-4 gap-4">
+                        <input
+                            x-model="data.first_name"
+                            class="p-2 rounded"
+                            type="text"
+                            placeholder="First Name"
+                        />
+                        <input
+                            x-model="data.last_name"
+                            class="p-2 rounded"
+                            type="text"
+                            placeholder="Last Name"
+                        />
                     </div>
-                    <div x-show="address_page==2" class="flex flex-col p-4 gap-4">
-                        <textarea x-model="notes_model" rows="4" class="rounded p-2" type="text" placeholder="Notes"></textarea>
+                    <div x-show="page==2" class="flex flex-col p-4 gap-4">
+                        <input
+                            x-model="data.home_phone"
+                            class="p-2 rounded"
+                            type="text"
+                            placeholder="Home Phone"
+                        />
+                        <input
+                            x-model="data.work_phone"
+                            class="p-2 rounded"
+                            type="text"
+                            placeholder="Work Phone"
+                        />
                     </div>
-                    <div class="flex flex-col gap-4 items-end p-8">
-                        <input @click="address=address_model;notes=notes_model;alert('Address saved')"
+                    <div
+                        x-show="page==3 && !address_modal"
+                        class="flex flex-col p-4 gap-4"
+                    >
+                        Address: <span x-text="data.address"></span> Notes:
+                        <span x-text="data.notes"></span>
+                    </div>
+                    <div x-show="page==4" class="flex flex-col p-4 gap-4">
+                        <input
+                            x-model="data.car_type"
+                            class="rounded p-2"
+                            type="text"
+                            placeholder="Car type"
+                        />
+                        <input
+                            x-model="data.car_color"
+                            class="p-2 rounded"
+                            type="text"
+                            placeholder="Car color"
+                        />
+                    </div>
+                    <div x-show="address_modal">
+                        <div
+                            x-show="address_page==1"
+                            class="flex flex-col p-4 gap-4"
+                        >
+                            <textarea
+                                x-model="address_model"
+                                rows="4"
+                                class="rounded p-2"
+                                type="text"
+                                placeholder="Address"
+                            ></textarea>
+                        </div>
+                        <div
+                            x-show="address_page==2"
+                            class="flex flex-col p-4 gap-4"
+                        >
+                            <textarea
+                                x-model="notes_model"
+                                rows="4"
+                                class="rounded p-2"
+                                type="text"
+                                placeholder="Notes"
+                            ></textarea>
+                        </div>
+                        <div class="flex flex-col gap-4 items-end p-8">
+                            <input
+                                @click="data.address=address_model;data.notes=notes_model;alert('Address saved')"
+                                class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
+                                type="button"
+                                value="Save"
+                            />
+                            <input
+                                @click="address_modal=false"
+                                class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
+                                type="button"
+                                value="Exit"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        x-show="!address_modal"
+                        class="flex flex-col gap-4 items-end p-8"
+                    >
+                        <input
+                            @click="address_modal=true"
+                            x-show="page==3"
                             class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
-                            type="button" value="Save">
-                        <input @click="address_modal=false"
+                            type="button"
+                            value="Address"
+                        />
+                        <input
+                            @click="save_data(data);prev_data = {...data};alert('Data Has Been Saved');"
                             class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
-                            type="button" value="Exit">
+                            type="button"
+                            value="Save"
+                        />
+                        <input
+                            @click="check(data, prev_data) ? window.close() : exit_modal=true"
+                            class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
+                            type="button"
+                            value="Exit"
+                        />
+                    </div>
+                </form>
+            </div>
+            <div
+                class="absolute bg-opacity-50 bg-black flex top-0 left-0 w-screen h-screen justify-center items-center"
+                x-show="exit_modal"
+            >
+                <div
+                    class="bg-green-600 items-center flex flex-col gap-4 text-2xl p-10 rounded text-white"
+                >
+                    You made changes since last save, do you want to save them
+                    or exit?
+                    <div>
+                        <input
+                            @click="save_data(data);alert('Data Has Been Saved');window.close()"
+                            class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
+                            type="button"
+                            value="Save"
+                        />
+                        <input
+                            @click="window.close()"
+                            class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
+                            type="button"
+                            value="Exit"
+                        />
                     </div>
                 </div>
-                <div x-show="!address_modal" class="flex flex-col gap-4 items-end p-8">
-                    <input @click="address_modal=true" x-show="page==3"
-                        class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
-                        type="button" value="Address">
-                    <input @click="alert('Data Has Been Saved')"
-                        class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
-                        type="button" value="Save">
-                    <input disabled
-                        class="w-44 bg-green-900 text-white text-3xl p-2 rounded hover:bg-green-500 hover:text-black hover:cursor-pointer"
-                        type="button" value="Exit">
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-</body>
-
+        <script>
+            const def_data = JSON.parse(localStorage.getItem("data")) || {
+                first_name: "",
+                last_name: "",
+                home_phone: "",
+                work_phone: "",
+                car_type: "",
+                car_color: "",
+                address: "",
+                notes: "",
+            };
+            const alp_init = () => {
+                return {
+                    prev_data: { ...def_data },
+                    data: { ...def_data },
+                    page: 1,
+                    address_model: "",
+                    notes_model: "",
+                    address_modal: false,
+                    address_page: 1,
+                    exit_modal: false,
+                    check: (new_data, old_data) => {
+                        return (
+                            JSON.stringify(old_data) == JSON.stringify(new_data)
+                        );
+                    },
+                    save_data: (data) => {
+                        localStorage.setItem("data", JSON.stringify(data));
+                    },
+                };
+            };
+        </script>
+    </body>
 </html>
